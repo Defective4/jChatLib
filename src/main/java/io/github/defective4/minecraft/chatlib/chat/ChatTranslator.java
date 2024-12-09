@@ -19,6 +19,8 @@ import com.google.gson.JsonParser;
 public class ChatTranslator {
     private static final Map<String, String> values = new HashMap<>();
 
+    private ChatTranslator() {}
+
     public static void clearValues() {
         values.clear();
     }
