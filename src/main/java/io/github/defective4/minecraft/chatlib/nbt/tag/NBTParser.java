@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.zip.GZIPInputStream;
 
 import io.github.defective4.minecraft.chatlib.nbt.NBTParseException;
 import io.github.defective4.minecraft.chatlib.nbt.TagGenerator;
@@ -15,13 +16,15 @@ public class NBTParser {
 
     public static void main(String[] args) {
         try (InputStream is = new FileInputStream("Test.nbt")) {
-            System.out.println(parse(is, true).getTags().get(0));
+            System.out.println(parse(is, true, true).toJson());
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static CompoundTag parse(InputStream input, boolean readRootName) throws IOException, NBTParseException {
+    public static CompoundTag parse(InputStream input, boolean readRootName, boolean gzip)
+            throws IOException, NBTParseException {
+        if (gzip) input = new GZIPInputStream(input);
         DataInputStream dataInput = new DataInputStream(input);
         Tag tag = parseI(dataInput, readRootName);
         if (!(tag instanceof CompoundTag)) throw new NBTParseException("Root tag is not a compound tag");
