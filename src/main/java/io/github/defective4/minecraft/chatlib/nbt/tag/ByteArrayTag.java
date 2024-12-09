@@ -1,5 +1,8 @@
 package io.github.defective4.minecraft.chatlib.nbt.tag;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+
 import io.github.defective4.minecraft.chatlib.nbt.TagGenerator;
 
 public class ByteArrayTag extends Tag {
@@ -16,6 +19,13 @@ public class ByteArrayTag extends Tag {
     }
 
     public byte[] getArray() {
+        return array;
+    }
+
+    @Override
+    public JsonElement toJson() {
+        JsonArray array = new JsonArray();
+        for (int b : this.array) array.add(b);
         return array;
     }
 

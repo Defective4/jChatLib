@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+
 import io.github.defective4.minecraft.chatlib.nbt.NBTParseException;
 import io.github.defective4.minecraft.chatlib.nbt.TagGenerator;
 import io.github.defective4.minecraft.chatlib.nbt.TagRegistry;
@@ -38,6 +41,15 @@ public class ListTag extends Tag {
 
     public Class<? extends Tag> getType() {
         return type;
+    }
+
+    @Override
+    public JsonElement toJson() {
+        JsonArray array = new JsonArray();
+        if (type != EndTag.class) {
+            for (Tag t : tags) array.add(t.toJson());
+        }
+        return array;
     }
 
 }

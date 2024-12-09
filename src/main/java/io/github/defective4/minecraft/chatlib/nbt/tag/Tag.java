@@ -4,14 +4,18 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gson.JsonElement;
+
 import io.github.defective4.minecraft.chatlib.nbt.TagGenerator;
 
-public class Tag {
+public abstract class Tag {
     protected String name;
 
     public String getName() {
         return name;
     }
+
+    public abstract JsonElement toJson();
 
     @Override
     public String toString() {
@@ -29,5 +33,4 @@ public class Tag {
     protected void setName(String name) {
         this.name = name;
     }
-
 }
