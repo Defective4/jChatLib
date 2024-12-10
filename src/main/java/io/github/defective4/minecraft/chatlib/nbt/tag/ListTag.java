@@ -2,6 +2,7 @@ package io.github.defective4.minecraft.chatlib.nbt.tag;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import com.google.gson.JsonArray;
@@ -11,7 +12,7 @@ import io.github.defective4.minecraft.chatlib.nbt.NBTParseException;
 import io.github.defective4.minecraft.chatlib.nbt.TagGenerator;
 import io.github.defective4.minecraft.chatlib.nbt.TagRegistry;
 
-public class ListTag extends Tag {
+public class ListTag extends Tag implements Iterable<Tag> {
 
     public static final TagGenerator<ListTag> GENERATOR = in -> {
         int typeID = in.readByte();
@@ -35,12 +36,41 @@ public class ListTag extends Tag {
         this.tags = tags;
     }
 
+    public void clear() {
+        tags.clear();
+    }
+
+    public Tag get(int index) {
+        return tags.get(index);
+    }
+
     public List<? extends Tag> getTags() {
         return tags;
     }
 
     public Class<? extends Tag> getType() {
         return type;
+    }
+
+    public boolean isEmpty() {
+        return tags.isEmpty();
+    }
+
+    @Override
+    public Iterator<Tag> iterator() {
+        return (Iterator<Tag>) tags.iterator();
+    }
+
+    public Tag remove(int index) {
+        return tags.remove(index);
+    }
+
+    public boolean remove(Object o) {
+        return tags.remove(o);
+    }
+
+    public int size() {
+        return tags.size();
     }
 
     @Override

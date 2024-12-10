@@ -11,6 +11,11 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import io.github.defective4.minecraft.chatlib.nbt.tag.CompoundTag;
+import io.github.defective4.minecraft.chatlib.nbt.tag.ListTag;
+import io.github.defective4.minecraft.chatlib.nbt.tag.StringTag;
+import io.github.defective4.minecraft.chatlib.nbt.tag.Tag;
+
 public class ChatComponent {
     public static final ChatComponent EMPTY = new ChatComponent();
     private static final Gson PARSER = new Gson();
@@ -124,6 +129,72 @@ public class ChatComponent {
             return cpt;
         }
         return EMPTY;
+    }
+
+    public static ChatComponent fromNBT(Tag tag) {
+        if (tag == null) return EMPTY;
+        if (tag instanceof StringTag) return new ChatComponent(((StringTag) tag).getValue());
+        if (tag instanceof CompoundTag) {
+            CompoundTag compound = (CompoundTag) tag;
+            String text = null;
+            String color = null;
+            String translate = null;
+            ListTag extraList = null;
+            ListTag withList = null;
+            for (Tag child : compound.getTags()) {
+                if (child instanceof StringTag) {
+                    StringTag str = (StringTag) child;
+                    switch (child.getName().toLowerCase()) {
+                        case "insertion":
+                        case "text":
+                            text = str.getValue();
+                            break;
+                        case "color":
+                            color = str.getValue();
+                            break;
+                        case "translate":
+                            translate = str.getValue();
+                            break;
+                        default:
+                            break;
+                    }
+                } else if (child instanceof ListTag) {
+                    ListTag list = (ListTag) child;
+                    switch (child.getName().toLowerCase()) {
+                        case "extra":
+                            extraList = list;
+                            break;
+                        case "with":
+                            withList = list;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+
+            ChatComponent[] with = null;
+            ChatComponent[] extra = null;
+
+            if (withList != null) {
+                with = new ChatComponent[withList.size()];
+                for (int i = 0; i < with.length; i++) with[i] = fromNBT(withList.get(i));
+            }
+
+            if (extraList != null) {
+                extra = new ChatComponent[extraList.size()];
+                for (int i = 0; i < extra.length; i++) extra[i] = fromNBT(extraList.get(i));
+            }
+
+            ChatComponent cpt = new ChatComponent();
+            cpt.text = text;
+            cpt.translate = translate;
+            cpt.color = color;
+            cpt.extra = extra;
+            cpt.with = with;
+            return cpt;
+        }
+        throw new IllegalArgumentException("tag must be either StringTag or CompoundTag");
     }
 
 }
