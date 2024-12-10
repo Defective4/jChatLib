@@ -1,5 +1,6 @@
 package io.github.defective4.minecraft.chatlib.nbt.tag;
 
+import java.io.DataInput;
 import java.io.DataInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -22,6 +23,12 @@ public class NBTParser {
         }
     }
 
+    public static CompoundTag parse(DataInput dataInput, boolean readRootName) throws IOException, NBTParseException {
+        Tag tag = parseI(dataInput, readRootName);
+        if (!(tag instanceof CompoundTag)) throw new NBTParseException("Root tag is not a compound tag");
+        return (CompoundTag) tag;
+    }
+
     public static CompoundTag parse(InputStream input, boolean readRootName, boolean gzip)
             throws IOException, NBTParseException {
         if (gzip) input = new GZIPInputStream(input);
@@ -31,8 +38,8 @@ public class NBTParser {
         return (CompoundTag) tag;
     }
 
-    protected static Tag parseI(DataInputStream dataInput, boolean readName) throws IOException, NBTParseException {
-        int type = dataInput.read();
+    protected static Tag parseI(DataInput dataInput, boolean readName) throws IOException, NBTParseException {
+        int type = dataInput.readByte();
         TagGenerator<?> gen = TagRegistry.getGenerator(type);
         if (gen == null) return null;
         String name = null;
