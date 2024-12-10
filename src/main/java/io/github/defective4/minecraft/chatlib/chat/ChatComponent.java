@@ -27,7 +27,7 @@ public class ChatComponent {
 
     }
 
-    private ChatComponent(String text) {
+    public ChatComponent(String text) {
         this.text = text;
     }
 
