@@ -23,19 +23,15 @@ public class NBTParser {
         }
     }
 
-    public static CompoundTag parse(DataInput dataInput, boolean readRootName) throws IOException, NBTParseException {
-        Tag tag = parseI(dataInput, readRootName);
-        if (!(tag instanceof CompoundTag)) throw new NBTParseException("Root tag is not a compound tag");
-        return (CompoundTag) tag;
+    public static Tag parse(DataInput dataInput, boolean readRootName) throws IOException, NBTParseException {
+        return parseI(dataInput, readRootName);
     }
 
-    public static CompoundTag parse(InputStream input, boolean readRootName, boolean gzip)
+    public static Tag parse(InputStream input, boolean readRootName, boolean gzip)
             throws IOException, NBTParseException {
         if (gzip) input = new GZIPInputStream(input);
         DataInputStream dataInput = new DataInputStream(input);
-        Tag tag = parseI(dataInput, readRootName);
-        if (!(tag instanceof CompoundTag)) throw new NBTParseException("Root tag is not a compound tag");
-        return (CompoundTag) tag;
+        return parseI(dataInput, readRootName);
     }
 
     protected static Tag parseI(DataInput dataInput, boolean readName) throws IOException, NBTParseException {
