@@ -105,7 +105,7 @@ public class ChatComponent {
     }
 
     public static ChatComponent fromJson(JsonElement element) {
-        if (element == null) return EMPTY;
+        if (element == null) return null;
         if (element.isJsonPrimitive()) return new ChatComponent(element.getAsString());
         if (element.isJsonObject()) {
             ChatComponent cpt = PARSER.fromJson(element, ChatComponent.class);
@@ -114,7 +114,10 @@ public class ChatComponent {
             if (extra instanceof JsonArray) {
                 JsonArray extras = extra.getAsJsonArray();
                 ChatComponent[] parsedExtra = new ChatComponent[extras.size()];
-                for (int i = 0; i < parsedExtra.length; i++) parsedExtra[i] = ChatComponent.fromJson(extras.get(i));
+                for (int i = 0; i < parsedExtra.length; i++) {
+                    ChatComponent el = fromJson(extras.get(i));
+                    if (el != null) parsedExtra[i] = el;
+                }
                 cpt.extra = parsedExtra;
             }
 
@@ -122,17 +125,20 @@ public class ChatComponent {
             if (with instanceof JsonArray) {
                 JsonArray extras = with.getAsJsonArray();
                 ChatComponent[] parsedWith = new ChatComponent[extras.size()];
-                for (int i = 0; i < parsedWith.length; i++) parsedWith[i] = ChatComponent.fromJson(extras.get(i));
+                for (int i = 0; i < parsedWith.length; i++) {
+                    ChatComponent el = fromJson(extras.get(i));
+                    if (el != null) parsedWith[i] = el;
+                }
                 cpt.with = parsedWith;
             }
 
             return cpt;
         }
-        return EMPTY;
+        return null;
     }
 
     public static ChatComponent fromNBT(Tag tag) {
-        if (tag == null) return EMPTY;
+        if (tag == null) return null;
         if (tag instanceof StringTag) return new ChatComponent(((StringTag) tag).getValue());
         if (tag instanceof CompoundTag) {
             CompoundTag compound = (CompoundTag) tag;
@@ -178,12 +184,18 @@ public class ChatComponent {
 
             if (withList != null) {
                 with = new ChatComponent[withList.size()];
-                for (int i = 0; i < with.length; i++) with[i] = fromNBT(withList.get(i));
+                for (int i = 0; i < with.length; i++) {
+                    ChatComponent el = fromNBT(withList.get(i));
+                    if (el != null) with[i] = el;
+                }
             }
 
             if (extraList != null) {
                 extra = new ChatComponent[extraList.size()];
-                for (int i = 0; i < extra.length; i++) extra[i] = fromNBT(extraList.get(i));
+                for (int i = 0; i < extra.length; i++) {
+                    ChatComponent el = fromNBT(extraList.get(i));
+                    if (el != null) extra[i] = el;
+                }
             }
 
             ChatComponent cpt = new ChatComponent();
