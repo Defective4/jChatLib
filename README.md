@@ -1,6 +1,9 @@
 # jChatLib
 
 jChatLib is a minimal Minecraft chat component **and** NBT parser library.  
+It allows you to parse NBT with both named and unnamed root tags, used in Minecraft's files and sent over network.
+It also lets you parse text components, both from JSON and NBT!
+The library is still under development, new features and improvement, as well as proper documentation are planned.
 
 ## Features
 - **Complete** - supports all standard NBT data types
@@ -8,7 +11,7 @@ jChatLib is a minimal Minecraft chat component **and** NBT parser library.
 - **Simple to use**
 
 ## Installation
-Soon
+*Waiting for Maven*
 
 ## Usage
 
