@@ -1,6 +1,6 @@
 # jChatLib
 
-jChatLib is a minimal Minecraft chat componendt **and** NBT parser library.  
+jChatLib is a minimal Minecraft chat component **and** NBT parser library.  
 
 ## Features
 - **Complete** - supports all standard NBT data types
