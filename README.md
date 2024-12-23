@@ -11,7 +11,16 @@ The library is still under development, new features and improvement, as well as
 - **Simple to use**
 
 ## Installation
-*Waiting for Maven*
+Add
+```xml
+<dependency>
+    <groupId>io.github.defective4.minecraft</groupId>
+    <artifactId>jchatlib</artifactId>
+    <version>{version}</version>
+</dependency>
+```
+to your `pom.xml`'s dependencies section, where `{version}` is:  
+![Maven Central Version](https://img.shields.io/maven-central/v/io.github.defective4.minecraft/jchatlib)
 
 ## Usage
 
