@@ -49,7 +49,21 @@ System.out.println(nbt);
 Parsing text components from NBT:
 ```java
 InputStream in = ...
-Tag tag = NBTParser.parse(in, false, false);
+Tag tag = NBT.parse(in, false, false);
 ChatComponent component = ChatComponent.fromNBT(tag);
 System.out.println(component.toPlainString());
 ```
+
+Creating a NBT file:
+```java
+try (OutputStream os = new FileOutputStream("test.nbt") {
+    CompoundTag root = new CompoundTag("root");
+    
+    //                             v----- Tag name
+    StringTag text = new StringTag("text", "Hello world!");
+    //                                      ^----- Tag value
+
+    root.add(text);        //      v--------- (don't) use network format
+    byte[] data = NBT.encode(root, false);
+    os.write(data);
+}
