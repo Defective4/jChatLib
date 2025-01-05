@@ -33,6 +33,22 @@ public abstract class TagRegistry {
         }
     }
 
+    public static TagSerializer<?> getSerializer(int id) {
+        if (!REGISTRY.containsKey(id)) return null;
+        try {
+            return (TagSerializer<?>) REGISTRY.get(id).getField("SERIALIZER").get(null);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public static int getTagId(Class<? extends Tag> clazz) {
+        for (Map.Entry<Integer, Class<? extends Tag>> entry : REGISTRY.entrySet()) {
+            if (entry.getValue() == clazz) return entry.getKey();
+        }
+        return -1;
+    }
+
     public static Class<? extends Tag> getTagType(int id) {
         return REGISTRY.get(id);
     }

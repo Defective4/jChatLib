@@ -23,12 +23,12 @@ public class ChatComponent {
     private transient ChatComponent[] extra, with;
     private String text, color, translate;
 
-    private ChatComponent() {
-
-    }
-
     public ChatComponent(String text) {
         this.text = text;
+    }
+
+    private ChatComponent() {
+
     }
 
     public List<ChatComponent> flatten() {

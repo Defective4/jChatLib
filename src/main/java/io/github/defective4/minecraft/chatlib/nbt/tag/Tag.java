@@ -12,7 +12,7 @@ public abstract class Tag {
     protected String name;
 
     public String getName() {
-        return name;
+        return name == null ? "" : name;
     }
 
     public abstract JsonElement toJson();

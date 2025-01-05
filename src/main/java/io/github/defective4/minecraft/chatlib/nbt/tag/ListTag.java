@@ -1,5 +1,8 @@
 package io.github.defective4.minecraft.chatlib.nbt.tag;
 
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -11,6 +14,7 @@ import com.google.gson.JsonElement;
 import io.github.defective4.minecraft.chatlib.nbt.NBTParseException;
 import io.github.defective4.minecraft.chatlib.nbt.TagGenerator;
 import io.github.defective4.minecraft.chatlib.nbt.TagRegistry;
+import io.github.defective4.minecraft.chatlib.nbt.TagSerializer;
 
 public class ListTag extends Tag implements Iterable<Tag> {
 
@@ -27,6 +31,23 @@ public class ListTag extends Tag implements Iterable<Tag> {
         }
         return new ListTag(Collections.unmodifiableList(tags), type);
     };
+    public static final TagSerializer<ListTag> SERIALIZER = tag -> {
+        int id = TagRegistry.getTagId(tag.getType());
+        if (id == -1) throw new NBTParseException("Couldn't encode list: unknown tag type " + tag.getType());
+        TagSerializer<Tag> ts = (TagSerializer<Tag>) TagRegistry.getSerializer(id);
+        try (ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+                DataOutputStream wrapper = new DataOutputStream(buffer)) {
+            wrapper.writeByte(id);
+            wrapper.writeInt(tag.getTags().size());
+            for (Tag t : tag.getTags()) {
+                byte[] data = ts.serialize(t);
+                wrapper.write(data);
+            }
+            return buffer.toByteArray();
+        } catch (IOException e) {
+            throw new IllegalStateException(e);
+        }
+    };
 
     private final List<? extends Tag> tags;
     private final Class<? extends Tag> type;
@@ -36,8 +57,18 @@ public class ListTag extends Tag implements Iterable<Tag> {
         this.tags = tags;
     }
 
+    public ListTag(String name, List<? extends Tag> tags, Class<? extends Tag> type) {
+        this.type = type;
+        this.tags = tags;
+        setName(name);
+    }
+
     public void clear() {
         tags.clear();
+    }
+
+    public boolean contains(Object o) {
+        return tags.contains(o);
     }
 
     public Tag get(int index) {
@@ -50,6 +81,10 @@ public class ListTag extends Tag implements Iterable<Tag> {
 
     public Class<? extends Tag> getType() {
         return type;
+    }
+
+    public int indexOf(Object o) {
+        return tags.indexOf(o);
     }
 
     public boolean isEmpty() {

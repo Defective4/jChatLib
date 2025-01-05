@@ -7,7 +7,7 @@ public class NumberTag extends Tag {
 
     private final Number number;
 
-    public NumberTag(Number number) {
+    protected NumberTag(Number number) {
         this.number = number;
     }
 

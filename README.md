@@ -1,7 +1,7 @@
 # jChatLib
 
 jChatLib is a minimal Minecraft chat component **and** NBT parser library.  
-It allows you to parse NBT with both named and unnamed root tags, used in Minecraft's files and sent over network.
+It allows you to parse and encode NBT with both named and unnamed root tags, used in Minecraft's files and sent over network.
 It also lets you parse text components, both from JSON and NBT!
 The library is still under development, new features and improvement, as well as proper documentation are planned.
 
@@ -37,7 +37,7 @@ Parsing NBT from file:
 Tag nbt;
 try(InputStream is = new FileInputStream("Hello_world.nbt")) {
     //                        v----- Read root tag name
-    nbt = NBTParser.parse(is, true, false);
+    nbt = NBT.parse(is, true, false);
     //                              ^----- (don't) use GZIP compression 
 } catch(Exception e) {
     e.printStackTrace();
