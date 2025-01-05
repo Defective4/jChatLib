@@ -36,9 +36,9 @@ Parsing NBT from file:
 ```java
 Tag nbt;
 try(InputStream is = new FileInputStream("Hello_world.nbt")) {
-    //                        v----- Read root tag name
+    //                  v----- Read root tag name
     nbt = NBT.parse(is, true, false);
-    //                              ^----- (don't) use GZIP compression 
+    //                        ^----- (don't) use GZIP compression 
 } catch(Exception e) {
     e.printStackTrace();
     return;
