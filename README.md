@@ -16,11 +16,10 @@ Add
 <dependency>
     <groupId>io.github.defective4.minecraft</groupId>
     <artifactId>jchatlib</artifactId>
-    <version>{version}</version>
+    <version>1.1</version>
 </dependency>
 ```
-to your `pom.xml`'s dependencies section, where `{version}` is:  
-![Maven Central Version](https://img.shields.io/maven-central/v/io.github.defective4.minecraft/jchatlib)
+to your `pom.xml`'s dependencies section
 
 ## Usage
 
