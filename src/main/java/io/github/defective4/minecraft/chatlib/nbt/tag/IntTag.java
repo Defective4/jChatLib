@@ -9,6 +9,7 @@ public class IntTag extends NumberTag {
     public static final TagGenerator<IntTag> GENERATOR = in -> new IntTag(in.readInt());
     public static final TagSerializer<IntTag> SERIALIZER = tag -> {
         ByteBuffer buffer = ByteBuffer.allocate(4);
+        buffer.putInt(tag.getValue());
         return buffer.array();
     };
 
