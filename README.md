@@ -16,7 +16,7 @@ Add
 <dependency>
     <groupId>io.github.defective4.minecraft</groupId>
     <artifactId>jchatlib</artifactId>
-    <version>1.1</version>
+    <version>1.1.1</version>
 </dependency>
 ```
 to your `pom.xml`'s dependencies section
